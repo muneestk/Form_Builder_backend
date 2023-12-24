@@ -184,3 +184,27 @@ export const getSingleForms = async(req,res) => {
     }
 
 }
+
+
+
+
+export const deleteSingleForm = async(req,res) => {
+    try{
+        const { id } = req.params 
+        const formData = await formModel.findByIdAndDelete(id)
+        if(formData){
+            await formRegisterModel.deleteMany({formId:id})
+            return res.status(200).json({
+                message:'Form deleted succesfully'
+            })
+        }else{
+            return res.status(400).json({
+                message:'Form deletion failed'
+              })  
+        }
+       
+    }catch(error){       
+        console.log(error.message)
+    }
+
+}
